@@ -9,7 +9,7 @@ import lombok.SneakyThrows;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class JsonConfig {
+public class WrappedConfig {
     public static final String FOLDER = "config";
     @Getter
     private final String name;
@@ -24,7 +24,7 @@ public class JsonConfig {
     }
 
     @SneakyThrows
-    public JsonConfig(String name, boolean outputDefault) {
+    public WrappedConfig(String name, boolean outputDefault) {
         this.name = name;
         file = new File(System.getProperty("user.dir"), FOLDER + "/" + name + ".json");
         if(file.createNewFile()) {
