@@ -11,7 +11,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import io.netty.handler.stream.ChunkedWriteHandler;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -35,7 +34,7 @@ public class WrappedWebSocketServer {
                         ChannelPipeline pipe = ch.pipeline();
                         pipe.addLast("HttpServerCodec", new HttpServerCodec());
                         pipe.addLast("HttpObjectAggregator", new HttpObjectAggregator(65536));
-                        pipe.addLast("WebSocketServerProtocolHandler", new WebSocketServerProtocolHandler("/"));
+                        pipe.addLast("WebSocketServerProtocolHandler", new WebSocketServerProtocolHandler("/ws", true));
                         pipe.addLast("WebSocketServerHandler", new WebSocketServerHandler());
                     }
                 });
