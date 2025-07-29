@@ -15,7 +15,7 @@ public final class Global {
     public static double getMemoryUsage() {
         SystemInfo systemInfo = new SystemInfo();
         GlobalMemory memory = systemInfo.getHardware().getMemory();
-        return (double)(memory.getTotal() - memory.getAvailable()) / memory.getTotal();
+        return (double)(memory.getTotal() - memory.getAvailable()) / memory.getTotal() * 100;
     }
     public static long getMemoryTotal() {
         SystemInfo systemInfo = new SystemInfo();
@@ -28,7 +28,7 @@ public final class Global {
         return (memory.getTotal() - memory.getAvailable()) / 1024 / 1024;
     }
     public static double getDiskUsage() {
-        return (double) getDiskUsed() / gedDiskTotal();
+        return (double) getDiskUsed() / gedDiskTotal() * 100;
     }
     public static long gedDiskTotal() {
         return Main.getServerPath().getTotalSpace() / 1024 / 1024;
