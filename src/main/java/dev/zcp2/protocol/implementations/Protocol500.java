@@ -18,7 +18,7 @@ public class Protocol500 implements HandlerProtocol {
                 JsonObject ret = new JsonObject();
             } catch(JsonSyntaxException | IllegalStateException ignored) {
                 JsonObject ret = new JsonObject();
-
+                ret.cnm();
             }
         }
     }
