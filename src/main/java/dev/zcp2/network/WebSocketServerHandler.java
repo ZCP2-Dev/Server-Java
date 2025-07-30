@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import dev.zcp2.endpoint.Endpoint;
 import dev.zcp2.endpoint.EndpointManager;
 import dev.zcp2.endpoint.EndpointProcessingException;
 import io.netty.channel.ChannelHandlerContext;
@@ -37,7 +36,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
                         if(EndpointManager.endpoints.containsKey(method)) {
                             try {
                                 JsonObject endpointJson = EndpointManager.endpoints.get(method).call(body.get("parameter").getAsJsonObject());
-                                if(endpointJson!=null) retBody.addProperty("info", new Gson().toJson(endpointJson));
+                                if(endpointJson!=null) retBody.add("info", endpointJson);
                                 retBody.addProperty("id", id);
                                 retBody.addProperty("status", 200);
                             } catch (EndpointProcessingException e) {
@@ -57,7 +56,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
                 }
                 JsonObject ret = new JsonObject();
                 ret.addProperty("gateway", retGateway);
-                ret.addProperty("body", new Gson().toJson(retBody));
+                ret.add("body", retBody);
                 ctx.writeAndFlush(new TextWebSocketFrame(new Gson().toJson(ret)));
             } catch(JsonSyntaxException | IllegalStateException ignored) {
                 JsonObject ret = new JsonObject();

@@ -69,12 +69,12 @@ public final class Global {
         return System.getProperty("os.arch");
     }
     public static @NotNull String getSystemBuild() {
-        return System.getProperty("os.version");
+        return "";
     }
     public static @NotNull String getProcessor() {
         return System.getenv("PROCESSOR_IDENTIFIER");
     }
     public static @NotNull String getRam() {
-        return (getMemoryTotal() / 1024 / 1024 / 1024) + "GB";
+        return (Math.round(getMemoryTotal() / 102.4 ) / 10.0) + "GB";
     }
 }
