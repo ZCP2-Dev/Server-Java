@@ -6,6 +6,7 @@ import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;
 
+
 public final class Global {
     public static double getCpuUsage() {
         SystemInfo systemInfo = new SystemInfo();
@@ -57,5 +58,23 @@ public final class Global {
     public static int getMaxPlayers() {
         // TODO
         return -1;
+    }
+    public static @NotNull String getSystemName() {
+        return System.getProperty("os.name");
+    }
+    public static @NotNull String getSystemVersion() {
+        return System.getProperty("os.version");
+    }
+    public static @NotNull String getSystemArchitecture() {
+        return System.getProperty("os.arch");
+    }
+    public static @NotNull String getSystemBuild() {
+        return System.getProperty("os.version");
+    }
+    public static @NotNull String getProcessor() {
+        return System.getenv("PROCESSOR_IDENTIFIER");
+    }
+    public static @NotNull String getRam() {
+        return (getMemoryTotal() / 1024 / 1024 / 1024) + "GB";
     }
 }
