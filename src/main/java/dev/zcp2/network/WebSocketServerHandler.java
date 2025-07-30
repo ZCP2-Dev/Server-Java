@@ -1,4 +1,4 @@
-package dev.zcp2.socket;
+package dev.zcp2.network;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

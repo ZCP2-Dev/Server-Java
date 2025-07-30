@@ -1,7 +1,7 @@
 package dev.zcp2;
 
 import dev.zcp2.config.WrappedConfig;
-import dev.zcp2.socket.WrappedWebSocketServer;
+import dev.zcp2.network.WrappedWebSocketServer;
 import lombok.Getter;
 
 import java.io.File;
