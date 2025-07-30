@@ -1,5 +1,6 @@
 package dev.zcp2.network;
 
+import dev.zcp2.protocol.ProtocolVersion;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -35,9 +36,7 @@ public class WrappedWebSocketServer {
                         pipe.addLast("HttpServerCodec", new HttpServerCodec());
                         pipe.addLast("HttpObjectAggregator", new HttpObjectAggregator(65536));
                         pipe.addLast("WebSocketServerProtocolHandler", new WebSocketServerProtocolHandler("/ws", true));
-                        pipe.addLast("DecryptionHandler", new DecryptionHandler());
-                        pipe.addLast("EncryptionHandler", new EncryptionHandler());
-                        pipe.addLast("WebSocketServerHandler", new WebSocketServerHandler());
+                        pipe.addLast("WebSocketServerHandler", new WebSocketServerHandler(ProtocolVersion.VERSION_500));
                     }
                 });
         ChannelFuture cf = bootstrap.bind(port).sync();
