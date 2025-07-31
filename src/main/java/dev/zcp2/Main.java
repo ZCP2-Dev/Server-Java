@@ -1,11 +1,10 @@
 package dev.zcp2;
 
 import dev.zcp2.config.WrappedConfig;
-import dev.zcp2.network.WrappedWebSocketServer;
+import dev.zcp2.process.WrappedConsole;
 import lombok.Getter;
 
 import java.io.File;
-import java.util.Objects;
 
 public final class Main {
     @Getter
@@ -19,11 +18,12 @@ public final class Main {
         serverPath = new File(Main.getConfig().getJson().get("ServerPath").getAsString());
         if(serverPath.listFiles() == null)
             serverPath.mkdirs();
-        if(Objects.requireNonNull(serverPath.listFiles()).length == 0) {
-            // TODO:初始化(?)
-            WrappedWebSocketServer server = new WrappedWebSocketServer();
-            server.start(10086);
-            System.out.println("started");
-        }
+
+        String tempStartArgs = "java -jar \"" + serverPath.getAbsolutePath() + "\\paper-1.20.1-196.jar\" -nogui";
+        WrappedConsole console = new WrappedConsole();
+        console.start(tempStartArgs, serverPath);
+        console.setOutputHandler(System.out::println);
+        console.setErrorHandler(System.err::println);
+
     }
 }
