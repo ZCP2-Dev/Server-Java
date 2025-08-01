@@ -1,5 +1,6 @@
 package dev.zcp2.network;
 
+import dev.zcp2.Main;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -17,6 +18,7 @@ import lombok.SneakyThrows;
 public class WrappedWebSocketServer {
     @Getter
     private int port;
+    private ChannelFuture cf;
 
     public WrappedWebSocketServer() {}
 
@@ -31,6 +33,7 @@ public class WrappedWebSocketServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
+
                         ChannelPipeline pipe = ch.pipeline();
                         pipe.addLast("HttpServerCodec", new HttpServerCodec());
                         pipe.addLast("HttpObjectAggregator", new HttpObjectAggregator(65536));
@@ -38,10 +41,15 @@ public class WrappedWebSocketServer {
                         pipe.addLast("WebSocketServerHandler", new WebSocketServerHandler());
                     }
                 });
-        ChannelFuture cf = bootstrap.bind(port).sync();
+        cf = bootstrap.bind(port).sync();
         cf.channel().closeFuture().addListener(future -> {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         });
+    }
+
+    @SneakyThrows
+    public void stop() {
+        cf.channel().close().sync();
     }
 }

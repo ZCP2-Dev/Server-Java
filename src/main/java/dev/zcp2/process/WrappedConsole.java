@@ -60,6 +60,10 @@ public class WrappedConsole {
         executor.shutdown();
     }
 
+    public boolean isClosed() {
+        return !process.isAlive();
+    }
+
     @SneakyThrows
     private void readOutput() {
         String line;

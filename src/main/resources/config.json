@@ -1,6 +1,7 @@
 {
   "ServerCore": "paper-1.20.1-196",
-  "ServerPath": "D:\\LiteZero_Project\\ZephyrCraft-Panel-2\\Paper_Test\\paper-1.20.1-196.jar",
+  "ServerPath": "D:\\LiteZero_Project\\ZephyrCraft-Panel-2\\Paper_Test\\",
   "Version": "1.20.1(ProtocolVersion 763)",
-  "Port": "1145"
+  "Port": "1145",
+  "Password": "GenshinImpact666"
 }

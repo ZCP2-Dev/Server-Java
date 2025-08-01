@@ -29,9 +29,9 @@ public final class Global {
         return (memory.getTotal() - memory.getAvailable()) / 1024 / 1024;
     }
     public static double getDiskUsage() {
-        return (double) getDiskUsed() / gedDiskTotal() * 100;
+        return (double) getDiskUsed() / getDiskTotal() * 100;
     }
-    public static long gedDiskTotal() {
+    public static long getDiskTotal() {
         return Main.getServerPath().getTotalSpace() / 1024 / 1024;
     }
     public static long getDiskUsed() {

@@ -4,13 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import dev.zcp2.Main;
 import dev.zcp2.endpoint.EndpointManager;
 import dev.zcp2.endpoint.EndpointProcessingException;
+import dev.zcp2.util.Global;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import org.jetbrains.annotations.NotNull;
+
+import java.net.InetSocketAddress;
 
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
 
@@ -26,7 +30,9 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
                 switch (json.get("gateway").getAsInt()) {
                     case 0 -> {
                         // ping
-
+                        retBody.addProperty("ServerInfo", Main.getConsole() == null || Main.getConsole().isClosed() ? 0 : 2);
+                        retBody.addProperty("CpuUsage", (int) Global.getCpuUsage());
+                        retBody.addProperty("MemoryUsage", (int) Global.getMemoryUsage());
                     }
                     case 1 -> {
                         // call api
@@ -50,9 +56,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
                             retBody.addProperty("errinfo", "Endpoint not found");
                         }
                     }
-                    case 2 -> {
-                        // login
-                    }
                 }
                 JsonObject ret = new JsonObject();
                 ret.addProperty("gateway", retGateway);
@@ -75,10 +78,12 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) {
+    public void channelActive(@NotNull ChannelHandlerContext ctx) {
+        Main.getLogger().info("A channel connected from \"{}\".", ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress());
     }
 
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) {
+    public void channelInactive(@NotNull ChannelHandlerContext ctx) {
+        Main.getLogger().info("A channel disconnected from \"{}\".", ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress());
     }
 }
